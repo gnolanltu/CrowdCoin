@@ -1,13 +1,14 @@
-const HDWalletProvider = require("truffle-hdwallet-provider");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 const Web3 = require("web3");
 const compiledFactory = require("./build/CampaignFactory.json");
 
-const provider = new HDWalletProvider(
-  process.env.WALLET_MNEMONIC,
-  // remember to change this to your own phrase by providing in in the .env file!
-  process.env.INFURA_ENDPOINT
-  // remember to change this to your own endpoint by providing in in the .env file!
-);
+require('dotenv').config();
+
+const provider = new HDWalletProvider({
+  mnemonic: process.env.WALLET_MNEMONIC,
+  providerOrUrl: process.env.INFURA_ENDPOINT
+});
+
 const web3 = new Web3(provider);
 
 const deploy = async () => {
@@ -26,4 +27,6 @@ const deploy = async () => {
     `Please add contract address to the .env file as NEXT_PUBLIC_FACTORY_CONTRACT_ADDRESS=${result.options.address}`
   );
 };
+
 deploy();
+
